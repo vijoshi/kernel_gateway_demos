@@ -108,7 +108,7 @@ class KernelGatewayWSClient(LoggingConfigurable):
             'channels'
         )
         self.log.info('Connecting to {}'.format(ws_url))
-        request = HTTPRequest(ws_url, headers=KG_HEADERS, validate_cert=VALIDATE_KG_CERT)
+        request = HTTPRequest(ws_url, headers=KG_HEADERS, validate_cert=VALIDATE_KG_CERT, ca_certs='/Users/vinayak/devel/ssl/ibm-internal-root-ca-cert.pem')
         self.ws_future = websocket_connect(request)
         self.ws = yield self.ws_future
         # TODO: handle connection errors/timeout
