@@ -31,7 +31,8 @@ def fetch_kg(endpoint, **kwargs):
     """Make an async request to kernel gateway endpoint."""
     client = AsyncHTTPClient()
     url = url_path_join(KG_URL, endpoint)
-    response = yield client.fetch(url, headers=KG_HEADERS, validate_cert=VALIDATE_KG_CERT, **kwargs)
+    #response = yield client.fetch(url, headers=KG_HEADERS, validate_cert=VALIDATE_KG_CERT, **kwargs)
+    response = yield client.fetch(url, headers=KG_HEADERS, validate_cert=VALIDATE_KG_CERT, ca_certs='/Users/vinayak/devel/ssl/ibm-internal-root-ca-cert.pem', **kwargs)
     raise gen.Return(response)
 
 
@@ -111,7 +112,7 @@ class RemoteKernelManager(MappingKernelManager):
             response = yield fetch_kg(
                 self.kernels_endpoint,
                 method='POST',
-                body=json_encode({'name' : kernel_name})
+                body=json_encode({'name' : kernel_name, 'env' : {'KERNEL_APPNAME' : 'MyCustomName' }})
             )
             kernel = json_decode(response.body)
             kernel_id = kernel['id']
