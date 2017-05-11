@@ -112,7 +112,7 @@ class RemoteKernelManager(MappingKernelManager):
             response = yield fetch_kg(
                 self.kernels_endpoint,
                 method='POST',
-                body=json_encode({'name' : kernel_name, 'env' : {'KERNEL_APPNAME' : 'MyCustomName' }})
+                body=json_encode({'name' : kernel_name, 'env' : {'KERNEL_APPNAME' : 'MyCustomName', 'KERNEL_SPARK_ARGS' : '--executor-memory 2G --num-executors 1' }})
             )
             kernel = json_decode(response.body)
             kernel_id = kernel['id']
